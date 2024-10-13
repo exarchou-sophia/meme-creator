@@ -5,6 +5,23 @@ import { HomePage } from "./pages/HomePage"
 import { GalleryPage } from "./pages/GalleryPage"
 
 function App() {
+
+    useEffect(() => {
+
+        fetch('https://api.imgflip.com/get_memes')
+            .then((res) => {
+
+                if (!res.ok) {
+
+                    throw new Error('error of fetching memes');
+                }
+                return res.json();
+            })
+            .then((data) => setImages(data.data.memes))
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
     return (
         <BrowserRouter>
             <NavBar />
