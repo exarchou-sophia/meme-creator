@@ -1,5 +1,5 @@
 export const GalleryPage = () => (
-    <div className="bg-blue-600 text-white">
+    <div className="bg-indigo-500 text-white">
         <p>gallery page</p>
     </div>
 )

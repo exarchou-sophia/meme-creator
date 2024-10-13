@@ -1,0 +1,1 @@
+export const toClassNames = (...names) => names.join(" ")
