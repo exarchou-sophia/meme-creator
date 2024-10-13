@@ -1,18 +1,23 @@
-import { useState } from 'react'
-import { BrowserRouter as Router, Routes, Route, Link, Navigate } from "react-router-dom";
 import './App.css'
+import { NavBar } from './components/NavBar';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HomePage } from "./pages/HomePage"
+import { GalleryPage } from "./pages/GalleryPage"
 
 function App() {
+    return (
+        <BrowserRouter>
+            <NavBar />
 
-    return (<Router>
-        <NavBar />
+            <Routes>
+                <Route path="/">
+                    <Route index element={<HomePage />} />
+                    <Route path="gallery" element={<GalleryPage />} />
 
-        <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/gallery" element={<Gallery />} />
-        </Routes>
-    </Router>
-
+                    <Route path="*" element={<HomePage />} />
+                </Route>
+            </Routes>
+        </BrowserRouter>
     )
 }
 
