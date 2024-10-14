@@ -2,40 +2,20 @@ import { NavBar } from './components/NavBar';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HomePage } from "./pages/HomePage"
 import { GalleryPage } from "./pages/GalleryPage"
-import { getMemes } from './components/api';
-import { useState, useEffect } from 'react';
-import { SearchProvider } from './context/SearchContext';
+import { useState } from 'react';
+import { MemeContext } from "./context/MemeContext";
 
 export const App = () => {
     const [memes, setMemes] = useState([]);
-    // const [userSearchInput, setUserSearchInput] = useState("");
-    const [filteredMemes, setFilteredMemes] = useState([]);
-
-    const { userSearchInput } = useContext(SearchContext);
-
-    useEffect(() => {
-        getMemes().then(setMemes);
-    }, []);
-
-    useEffect(() => {
-        console.log("memes", memes);
-    }, [memes])
-
-    useEffect(() => {
-        console.log("userSearchInput!", userSearchInput);
-
-        setFilteredMemes(memes.filter(({ name }) =>
-            name.toLowerCase().includes(userSearchInput.toLowerCase())
-        ))
-    }, [userSearchInput])
-
-    useEffect(() => {
-        console.log(filteredMemes)
-    }, [filteredMemes])
+    const [previewMeme, setPreviewMeme] = useState();
+    const [savedMemes, setSavedMemes] = useState([]);
 
     return (
-
-        <SearchProvider>
+        <MemeContext.Provider value={{
+            previewMeme, setPreviewMeme,
+            memes, setMemes,
+            savedMemes, setSavedMemes,
+        }}>
             <BrowserRouter>
                 <NavBar />
 
@@ -43,14 +23,12 @@ export const App = () => {
                     <Route path="/">
                         <Route
                             index
-                            element={
-                                <HomePage
-                                    onSearchInputChanged={setUserSearchInput}
-                                    onSearchClicked={() => console.log("user clicked search button")}
-                                />
-                            }
+                            element={<HomePage />}
                         />
-                        <Route path="gallery" element={<GalleryPage />} />
+                        <Route
+                            path="gallery"
+                            element={<GalleryPage />}
+                        />
 
                         <Route
                             path="*"
@@ -59,8 +37,7 @@ export const App = () => {
                     </Route>
                 </Routes>
             </BrowserRouter>
-        </SearchProvider>
-
+        </MemeContext.Provider>
     );
 }
 
