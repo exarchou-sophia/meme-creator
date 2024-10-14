@@ -12,7 +12,9 @@ export const NavBar = () => (
             "py-4",
             "bg-indigo-500",
             "top-0",
-            "sticky"
+            "sticky",
+            "z-10"
+
         )}
     >
         <Link to="/" className="mr-4 text-lg text-white">
