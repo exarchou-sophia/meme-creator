@@ -4,11 +4,14 @@ import { HomePage } from "./pages/HomePage"
 import { GalleryPage } from "./pages/GalleryPage"
 import { getMemes } from './components/api';
 import { useState, useEffect } from 'react';
+import { SearchProvider } from './context/SearchContext';
 
 export const App = () => {
     const [memes, setMemes] = useState([]);
-    const [userSearchInput, setUserSearchInput] = useState("");
+    // const [userSearchInput, setUserSearchInput] = useState("");
     const [filteredMemes, setFilteredMemes] = useState([]);
+
+    const { userSearchInput } = useContext(SearchContext);
 
     useEffect(() => {
         getMemes().then(setMemes);
@@ -31,30 +34,34 @@ export const App = () => {
     }, [filteredMemes])
 
     return (
-        <BrowserRouter>
-            <NavBar />
 
-            <Routes>
-                <Route path="/">
-                    <Route
-                        index
-                        element={
-                            <HomePage
-                                onSearchInputChanged={setUserSearchInput}
-                                onSearchClicked={() => console.log("user clicked search button")}
-                            />
-                        }
-                    />
-                    <Route path="gallery" element={<GalleryPage />} />
+        <SearchProvider>
+            <BrowserRouter>
+                <NavBar />
 
-                    <Route
-                        path="*"
-                        element={<Navigate to="/" />}
-                    />
-                </Route>
-            </Routes>
-        </BrowserRouter>
-    )
+                <Routes>
+                    <Route path="/">
+                        <Route
+                            index
+                            element={
+                                <HomePage
+                                    onSearchInputChanged={setUserSearchInput}
+                                    onSearchClicked={() => console.log("user clicked search button")}
+                                />
+                            }
+                        />
+                        <Route path="gallery" element={<GalleryPage />} />
+
+                        <Route
+                            path="*"
+                            element={<Navigate to="/" />}
+                        />
+                    </Route>
+                </Routes>
+            </BrowserRouter>
+        </SearchProvider>
+
+    );
 }
 
 export default App

@@ -1,5 +1,12 @@
-export const HomePage = ({ onSearchInputChanged, onSearchClicked }) => {
+import { useContext } from 'react';
+import { SearchContext } from './context/SearchContext';
 
+export const HomePage = ({ onSearchClicked }) => {
+
+    const { userSearchInput, setUserSearchInput } = useContext(SearchContext); // Use context for state
+    const handleInputChange = (e) => {
+        setUserSearchInput(e.target.value);
+    };
     return (
         <div>
             <h1>Create your own meme</h1>
@@ -12,8 +19,8 @@ export const HomePage = ({ onSearchInputChanged, onSearchClicked }) => {
                         type='email'
                         placeholder='Search for a picture...'
                         className="w-full outline-none bg-white pl-4 text-sm"
-                        onChange={({ target }) => {
-                            onSearchInputChanged(target.value)
+                        onChange={({ handleInputChange }) => {
+                            onSearchInputChanged(handleInputChange.value)
                         }}
                     />
                     <button
