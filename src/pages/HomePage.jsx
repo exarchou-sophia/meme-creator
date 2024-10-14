@@ -42,8 +42,7 @@ export const HomePage = () => {
                             setSearch(target.value)
                         }
                     />
-                    {/*bg-white rounded-lg shadow-lg overflow-hidden 
-transition-transform transform hover:scale-105 hover:shadow-xl  */}
+
                     <button
                         type='button'
                         className="bg-indigo-500 hover:bg-amber-600  transition-all text-white 
