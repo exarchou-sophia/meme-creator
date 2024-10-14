@@ -18,7 +18,7 @@ export const MemePreview = () => {
     }
 
     const discardPreview = () => {
-        setPreviewMeme
+        setPreviewMeme(null)
     };
 
     return previewMeme && (
