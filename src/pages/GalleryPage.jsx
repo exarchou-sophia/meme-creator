@@ -13,18 +13,17 @@ export const GalleryPage = () => {
                 {memes
                     .sort((a, b) => b.key - a.key)
                     .map(({ creationDate, dataUrl, name, key }) => (
-                        <div key={key} style={{ display: "flex", flexDirection: "column" }}>
-                            <p>{name}</p>
-                            <p>creation date {new Date(creationDate).toLocaleDateString()}</p>
-                            <img
-                                src={dataUrl}
-                                className="rounded-md"
-                            />
+                        <div key={key} className="m-1" style={{ display: "flex", flexDirection: "column" }}>
+                            <p>
+                                {name}
+                                <span style={{ fontWeight: "200" }}>
+                                    {new Date(creationDate).toLocaleDateString()}
+                                </span>
+                            </p>
 
                             <button
                                 type='button'
-                                className="bg-indigo-500 hover:bg-amber-600  transition-all text-white 
-             text-sm rounded-lg m-4 px-5 py-2.5"
+                                className="bg-indigo-500 hover:bg-amber-600 transition-all text-white text-sm rounded-lg py-1"
                                 onClick={() => {
                                     localStorage.removeItem(key)
                                     setMemes(loadMemesFromLocalStorage())
@@ -32,6 +31,12 @@ export const GalleryPage = () => {
                             >
                                 Discard
                             </button>
+
+                            <img
+                                src={dataUrl}
+                                className="rounded-md"
+                            />
+
                         </div>
                     ))}
             </div>

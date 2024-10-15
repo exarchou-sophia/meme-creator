@@ -23,7 +23,7 @@ export const HomePage = () => {
 
     return (
         <div className='w-full justify-between flex'>
-            <div className="flex w-1/3 p-4">
+            <div className="flex w-1/3 p-2">
                 <PostItNote />
             </div>
 
@@ -31,7 +31,7 @@ export const HomePage = () => {
                 <MemePreview />
             </main>
 
-            <div className="flex flex-col w-1/3 px-16 py-4 ml-auto gap-4">
+            <div className="flex flex-col w-1/3 px-2 py-4 ml-auto gap-4">
                 <div className="flex bg-white px-1 py-1 rounded-lg border border-indigo-500 overflow-hidden font-[sans-serif]">
                     <input
                         placeholder='Search for a picture...'
