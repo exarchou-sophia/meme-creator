@@ -7,7 +7,7 @@ export const HomePage = () => {
     const {
         memes,
         setMemes,
-        setPreviewMeme,
+        dispatch,
     } = useMemes();
     const [filteredMemes, setFilteredMemes] = useState([]);
 
@@ -54,7 +54,7 @@ export const HomePage = () => {
                             key={meme.id}
                             className="bg-slate-700 p-4 rounded-md shadow-lg text-stone-200 m-1 transition-transform transform hover:scale-95 hover:shadow-md"
 
-                            onClick={() => setPreviewMeme(meme)}
+                            onClick={() => dispatch({ type: "save", payload: meme })}
                             style={{
                                 display: "flex",
                                 flexDirection: "column",

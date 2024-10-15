@@ -4,27 +4,24 @@ import domtoimage from 'dom-to-image';
 
 export const MemePreview = () => {
     const ref = useRef()
-    const {
-        setPreviewMeme,
-        previewMeme,
-    } = useMemes();
+    const { previewMeme, dispatch } = useMemes();
 
     const savePreviewMemeToLocalStorage = () => {
         if (!ref.current) return;
 
-        domtoimage.toJpeg(ref.current)
+        domtoimage.toPng(ref.current)
             .then(dataUrl => {
-                localStorage.setItem(Date.now(), JSON.stringify(({
+                const key = Date.now();
+                localStorage.setItem(key, JSON.stringify(({
+                    key,
                     creationDate: new Date(),
                     name: previewMeme.name,
                     dataUrl,
                 })));
-                setPreviewMeme()
+                dispatch({ type: "discard" })
             })
             .catch(error => console.error("dom to image error", error));
     }
-
-    const discardPreview = () => setPreviewMeme();
 
     return previewMeme && (
         <div>
@@ -51,25 +48,23 @@ export const MemePreview = () => {
                     id="top"
                     type="text"
                     defaultValue="insert top text"
-                    value={previewMeme.topText}
                     style={{
                         zIndex: 101,
                         background: "none",
                         display: "block",
                         position: "absolute",
                         top: 10,
+                        left: 10,
+                        right: 10,
                     }}
-                    onChange={({ target }) =>
-                        setPreviewMeme({
-                            ...previewMeme,
-                            topText: target.value
-                        })
-                    }
+                    onChange={({ target }) => dispatch({
+                        type: "changeTopText",
+                        payload: target.value
+                    })}
                 />
 
                 <input
                     defaultValue="insert bottom text"
-                    value={previewMeme.bottomText}
                     id="bottom"
                     type="text"
                     cols={50}
@@ -78,14 +73,14 @@ export const MemePreview = () => {
                         background: "none",
                         position: "absolute",
                         bottom: 10,
+                        left: 10,
+                        right: 10,
                         zIndex: 101,
                     }}
-                    onChange={({ target }) =>
-                        setPreviewMeme({
-                            ...previewMeme,
-                            bottomText: target.value
-                        })
-                    }
+                    onChange={({ target }) => dispatch({
+                        type: "changeBottomText",
+                        payload: target.value
+                    })}
                 />
             </div>
 
@@ -101,7 +96,8 @@ export const MemePreview = () => {
                 type='button'
                 className="bg-indigo-500 hover:bg-amber-600  transition-all text-white 
              text-sm rounded-lg m-4 px-5 py-2.5"
-                onClick={discardPreview}>
+                onClick={() => dispatch({ type: "discard" })}
+            >
                 Discard Preview
             </button>
         </div>
