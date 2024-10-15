@@ -9,10 +9,6 @@ export const GalleryPage = () => {
 
     return (
         <div className="bg-slate-900 text-white">
-            <p className="text-xl mx-4 text-stone-200">
-                Your Memes Collection
-            </p>
-
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  gap-4 p-2">
                 {memes
                     .sort((a, b) => b.key - a.key)

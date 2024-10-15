@@ -23,20 +23,19 @@ export const HomePage = () => {
 
     return (
         <div className='w-full justify-between flex'>
-            <div className="flex w-1/3 p-4 ">
+            <div className="flex w-1/3 p-4">
                 <PostItNote />
             </div>
+
             <main className="flex flex-col justify-between w-1/3 p-6 text-stone-200">
                 <MemePreview />
             </main>
 
-            <div className="flex flex-col w-1/3 px-4 py-4 ml-auto">
-
-                <div className="flex bg-white px-1 py-1 rounded-lg border border-indigo-500 overflow-hidden max-w-md mx-auto font-[sans-serif]">
+            <div className="flex flex-col w-1/3 px-16 py-4 ml-auto gap-4">
+                <div className="flex bg-white px-1 py-1 rounded-lg border border-indigo-500 overflow-hidden font-[sans-serif]">
                     <input
-                        type='email'
                         placeholder='Search for a picture...'
-                        className="w-full outline-none bg-white pl-4 text-sm"
+                        className="w-full outline-none bg-white py-1 px-4 text-md"
                         onChange={({ target }) => setFilteredMemes(
                             target.value === ""
                                 ? []
@@ -45,7 +44,7 @@ export const HomePage = () => {
                     />
                 </div>
 
-                <div style={{ display: "flex", flexDirection: "column", height: "100vh", overflow: "auto" }}>
+                <div style={{ display: "flex", flexDirection: "column", height: "80vh", overflow: "auto", margin: "0 auto" }}>
                     {filteredMemes.map(meme => (
                         <div
                             key={meme.id}
@@ -54,14 +53,12 @@ export const HomePage = () => {
                             style={{
                                 display: "flex",
                                 flexDirection: "column",
-                                height: "300px",
-                                width: "300px",
                             }}
                         >
                             <p>{meme.name}</p>
+
                             <img
-                                className="w-auto rounded-sm m-3 px-3"
-                                style={{ objectFit: "contain" }}
+                                className="w-auto rounded-sm m-1"
                                 src={meme.url}
                             />
                         </div>

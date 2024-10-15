@@ -1,17 +1,48 @@
 import { useRef } from "react";
 import { useMemes } from "../context/MemeContext";
-import { toPng } from 'html-to-image';
+import { toJpeg } from 'html-to-image';
 
 export const MemePreview = () => {
     const ref = useRef()
     const { previewMeme, dispatch } = useMemes();
 
     return previewMeme && previewMeme.url && (
-        <div>
+        <div style={{ position: "relative", display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <div style={{ display: "flex", gap: "16px" }}>
+                <button
+                    className="bg-indigo-500 hover:bg-amber-600 w-36 transition-all text-white text-sm rounded-lg m-4 px-5 py-2.5"
+                    onClick={async () => {
+                        const image = await toJpeg(ref.current, { quality: 0.5 });
+                        const key = Date.now();
+
+                        localStorage.setItem(
+                            key,
+                            JSON.stringify({
+                                key,
+                                creationDate: new Date(),
+                                name: previewMeme.name,
+                                dataUrl: image,
+                            })
+                        );
+
+                        dispatch({ type: "discard" });
+                    }}
+                >
+                    Save Meme
+                </button>
+
+                <button
+                    className="bg-indigo-500 hover:bg-amber-600  transition-all text-white text-sm rounded-lg m-4 px-5 py-2.5"
+                    onClick={() => dispatch({ type: "discard" })}
+                >
+                    Discard Preview
+                </button>
+            </div>
+
             <div
                 ref={ref}
-                style={{ position: "relative", }}
-                className="w-2/3 rounded-sm m-3"
+                style={{ position: "relative" }}
+                className="rounded-sm m-3"
             >
                 <div style={{
                     position: "absolute",
@@ -25,6 +56,7 @@ export const MemePreview = () => {
 
                 <img
                     src={previewMeme.url}
+                    loading="eager"
                     style={{ position: "relative" }}
                 />
 
@@ -67,32 +99,6 @@ export const MemePreview = () => {
                     })}
                 />
             </div>
-
-            <button
-                className="bg-indigo-500 hover:bg-amber-600 w-36 transition-all text-white text-sm rounded-lg m-4 px-5 py-2.5"
-                onClick={() =>
-                    toPng(ref.current)
-                        .then(image => {
-                            const key = Date.now();
-                            localStorage.setItem(key, JSON.stringify({
-                                key,
-                                creationDate: new Date(),
-                                name: previewMeme.name,
-                                dataUrl: image,
-                            }));
-                        })
-                        .then(() => dispatch({ type: "discard" }))
-                }
-            >
-                Save Meme
-            </button>
-
-            <button
-                className="bg-indigo-500 hover:bg-amber-600  transition-all text-white text-sm rounded-lg m-4 px-5 py-2.5"
-                onClick={() => dispatch({ type: "discard" })}
-            >
-                Discard Preview
-            </button>
         </div>
     )
 }
