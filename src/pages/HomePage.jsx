@@ -22,8 +22,11 @@ export const HomePage = () => {
 
     return (
         <div className='items-start flex'>
-            <main className="flex w-2/3 px-4 py-4 ">
-
+            <main className="flex flex-col w-2/3 p-6 text-stone-200">
+                <h1 className="text-xl">Create your meme here.</h1>
+                <p className="mt-2 text-md">Search for your picture, select it, add your own text,</p>
+                <p>save it in your gallery if you like it, discard it if you don't </p>
+                <p>and start over! 😉</p>
                 <MemePreview />
             </main>
 

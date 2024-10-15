@@ -30,7 +30,7 @@ export const MemePreview = () => {
                     id="top"
                     type="text"
                     rows="2"
-                    className="m-4 text-indigo-800"
+                    className="m-4 text-white shadow-lg"
                     defaultValue="insert top text"
                     value={previewMeme.topText}
                     style={{ background: "none", display: "block", position: "absolute", top: 10, }}
@@ -47,7 +47,7 @@ export const MemePreview = () => {
                     value={previewMeme.bottomText}
                     id="bottom"
                     type="text"
-                    className="m-4 text-indigo-800"
+                    className="m-4 text-white shadow-lg"
                     style={{ background: "none", position: "absolute", bottom: 10, }}
                     onChange={({ target }) =>
                         setPreviewMeme({
