@@ -14,28 +14,30 @@ export const GalleryPage = () => {
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  gap-4 p-2">
-                {memes.map(({ creationDate, dataUrl, name, key }) => (
-                    <div key={key} style={{ display: "flex", flexDirection: "column" }}>
-                        <p>{name}</p>
-                        <p>creation date {new Date(creationDate).toLocaleDateString()}</p>
-                        <img
-                            src={dataUrl}
-                            className="rounded-md"
-                        />
+                {memes
+                    .sort((a, b) => b.key - a.key)
+                    .map(({ creationDate, dataUrl, name, key }) => (
+                        <div key={key} style={{ display: "flex", flexDirection: "column" }}>
+                            <p>{name}</p>
+                            <p>creation date {new Date(creationDate).toLocaleDateString()}</p>
+                            <img
+                                src={dataUrl}
+                                className="rounded-md"
+                            />
 
-                        <button
-                            type='button'
-                            className="bg-indigo-500 hover:bg-amber-600  transition-all text-white 
+                            <button
+                                type='button'
+                                className="bg-indigo-500 hover:bg-amber-600  transition-all text-white 
              text-sm rounded-lg m-4 px-5 py-2.5"
-                            onClick={() => {
-                                localStorage.removeItem(key)
-                                setMemes(loadMemesFromLocalStorage())
-                            }}
-                        >
-                            Discard
-                        </button>
-                    </div>
-                ))}
+                                onClick={() => {
+                                    localStorage.removeItem(key)
+                                    setMemes(loadMemesFromLocalStorage())
+                                }}
+                            >
+                                Discard
+                            </button>
+                        </div>
+                    ))}
             </div>
         </div>
     )

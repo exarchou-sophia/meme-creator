@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useMemes } from "../context/MemeContext";
 import { getMemes } from "../api"
 import { MemePreview } from "../components/MemePreview";
+import { PostItNote } from "../components/PostItNote";
 
 export const HomePage = () => {
     const {
@@ -21,21 +22,17 @@ export const HomePage = () => {
     )
 
     return (
-        <div className='items-start flex'>
-            <main className="flex flex-col w-2/3 p-6 text-stone-200">
-                <h1 className="text-xl">Create your meme here.</h1>
-                <p className="mt-2 text-md">Search for a picture, select it, add your own text,</p>
-                <p>save it in your gallery if you like it, discard it if you don't </p>
-                <p>and start over! 😉</p>
+        <div className='w-full justify-between flex'>
+            <div className="flex w-1/3 p-4 ">
+                <PostItNote />
+            </div>
+            <main className="flex flex-col justify-between w-1/3 p-6 text-stone-200">
                 <MemePreview />
             </main>
 
-            <div
-                // className="flex items-start w-1/3 flex-col px-4 py-4 ml-auto my-2h-auto"
-                style={{ display: "flex", flexDirection: "column", overflow: "hidden" }}
-            >
-                <div className="flex bg-white  px-1 py-1 rounded-lg border border-indigo-500 
-                overflow-hidden max-w-md mx-auto font-[sans-serif]">
+            <div className="flex flex-col w-1/3 px-4 py-4 ml-auto">
+
+                <div className="flex bg-white px-1 py-1 rounded-lg border border-indigo-500 overflow-hidden max-w-md mx-auto font-[sans-serif]">
                     <input
                         type='email'
                         placeholder='Search for a picture...'
@@ -53,7 +50,6 @@ export const HomePage = () => {
                         <div
                             key={meme.id}
                             className="bg-slate-700 p-4 rounded-md shadow-lg text-stone-200 m-1 transition-transform transform hover:scale-95 hover:shadow-md"
-
                             onClick={() => dispatch({ type: "save", payload: meme })}
                             style={{
                                 display: "flex",
@@ -61,9 +57,6 @@ export const HomePage = () => {
                                 height: "300px",
                                 width: "300px",
                             }}
-
-                        // className="text-stone-200 m-1 grid grid-cols-1 bg-slate-700 p-4 rounded-md shadow-lg
-                        //  overflow-hidden transition-transform transform hover:scale-95 hover:shadow-md "
                         >
                             <p>{meme.name}</p>
                             <img
@@ -75,6 +68,6 @@ export const HomePage = () => {
                     ))}
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
