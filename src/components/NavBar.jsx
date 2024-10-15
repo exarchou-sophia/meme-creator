@@ -18,7 +18,7 @@ export const NavBar = () => (
         )}
     >
         <Link to="/" className="mr-4 text-lg text-white">
-            Home
+            <img src='./logo-removebg.png' className='w-2/3 h-16 object-cover' />
         </Link>
         <Link to="/gallery" className="text-lg text-white">
             Gallery
