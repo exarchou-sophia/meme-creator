@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { useMemes } from "../context/MemeContext";
+import domtoimage from 'dom-to-image';
 
 export const MemePreview = () => {
     const ref = useRef()
@@ -11,29 +12,53 @@ export const MemePreview = () => {
     const savePreviewMemeToLocalStorage = () => {
         if (!ref.current) return;
 
-        const content = ref.current.innerHTML;
-        const base64 = btoa(content);
-        localStorage.setItem(previewMeme.id, base64);
-        setPreviewMeme()
+        domtoimage.toJpeg(ref.current)
+            .then(dataUrl => {
+                localStorage.setItem(Date.now(), JSON.stringify(({
+                    creationDate: new Date(),
+                    name: previewMeme.name,
+                    dataUrl,
+                })));
+                setPreviewMeme()
+            })
+            .catch(error => console.error("dom to image error", error));
     }
 
-    const discardPreview = () => {
-        setPreviewMeme(null)
-    };
+    const discardPreview = () => setPreviewMeme();
 
     return previewMeme && (
         <div>
-            <div ref={ref} style={{ position: "relative" }}>
-                <img src={previewMeme.url} className="w-2/3 rounded-sm m-3" />
+            <div
+                ref={ref}
+                style={{ position: "relative", }}
+                className="w-2/3 rounded-sm m-3"
+            >
+                <div style={{
+                    position: "absolute",
+                    top: 0,
+                    right: 0,
+                    left: 0,
+                    bottom: 0,
+                    background: "rgba(15, 23, 42, 0.4)",
+                    zIndex: 100,
+                }} />
+                <img
+                    src={previewMeme.url}
+                    style={{ position: "relative" }}
+                />
 
                 <input
                     id="top"
                     type="text"
-                    rows="2"
-                    className="m-4 text-white shadow-lg"
                     defaultValue="insert top text"
                     value={previewMeme.topText}
-                    style={{ background: "none", display: "block", position: "absolute", top: 10, }}
+                    style={{
+                        zIndex: 101,
+                        background: "none",
+                        display: "block",
+                        position: "absolute",
+                        top: 10,
+                    }}
                     onChange={({ target }) =>
                         setPreviewMeme({
                             ...previewMeme,
@@ -47,8 +72,14 @@ export const MemePreview = () => {
                     value={previewMeme.bottomText}
                     id="bottom"
                     type="text"
-                    className="m-4 text-white shadow-lg"
-                    style={{ background: "none", position: "absolute", bottom: 10, }}
+                    cols={50}
+                    rows={2}
+                    style={{
+                        background: "none",
+                        position: "absolute",
+                        bottom: 10,
+                        zIndex: 101,
+                    }}
                     onChange={({ target }) =>
                         setPreviewMeme({
                             ...previewMeme,
